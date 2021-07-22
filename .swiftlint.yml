@@ -1,0 +1,11 @@
+disabled_rules:
+    - trailing_whitespace
+line_length:
+    warning: 300
+    error: 350
+
+included:
+  - Reciplease
+
+excluded:
+  - Pods
