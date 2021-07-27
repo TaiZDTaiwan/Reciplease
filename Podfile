@@ -6,6 +6,7 @@ target 'Reciplease' do
   use_frameworks!
 
 pod 'Alamofire', '~> 5.4'
+pod 'Reusable'
 
   # Pods for Reciplease
 

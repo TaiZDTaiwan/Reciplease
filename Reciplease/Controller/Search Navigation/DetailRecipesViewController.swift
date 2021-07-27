@@ -9,6 +9,9 @@ import UIKit
 
 class DetailRecipesViewController: UIViewController {
     
+    static let nibName = "PresentDetailRecipeTableViewCell"
+    static let cellId = "PresentDetailRecipeCell"
+    
     // MARK: - Outlets from view
     
     @IBOutlet weak var recipeImageView: UIImageView!
@@ -39,8 +42,12 @@ class DetailRecipesViewController: UIViewController {
     
     // MARK: - View lifecycle
     
+    override func viewDidLoad() {
+        tableView.register(UINib.init(nibName: DetailRecipesViewController.nibName, bundle: nil), forCellReuseIdentifier: DetailRecipesViewController.cellId)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
-        recipeImageView.insertRecipeImage(urlLabel: "\(chosenRecipeToDetail.recipe.image)", viewController: self)
+        insertRecipeImage(urlLabel: "\(chosenRecipeToDetail.recipe.image)", imageView: recipeImageView)
         titleRecipeLabel.text = chosenRecipeToDetail.recipe.label
         checkIfRecipeAlreadyInFavorite()
     }
@@ -90,7 +97,12 @@ class DetailRecipesViewController: UIViewController {
             favorite.image = image
             favorite.url = url
             favorite.ingredientLines = ingredientLines
-            try? AppDelegate.viewContext.save()
+            
+            do {
+                try AppDelegate.viewContext.save()
+            } catch {
+                self.presentAlert("Impossible to save that recipe in favorite.")
+            }
         }
     }
 }
@@ -100,9 +112,10 @@ class DetailRecipesViewController: UIViewController {
 extension DetailRecipesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PresentDetailRecipeCell", for: indexPath) as? PresentDetailRecipeTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailRecipesViewController.cellId, for: indexPath) as? PresentDetailRecipeTableViewCell else {
             return UITableViewCell()
         }
+        cell.selectionStyle = .none
         cell.configure(ingredientLines: "- " + ingredientLines[indexPath.row])
         return cell
     }

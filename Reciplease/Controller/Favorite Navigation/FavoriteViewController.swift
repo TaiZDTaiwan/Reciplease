@@ -22,6 +22,11 @@ class FavoriteViewController: UIViewController {
     
     // MARK: - View lifecycle
     
+    override func viewDidLoad() {
+        tableView.register(UINib.init(nibName: DisplayRecipesViewController.nibName, bundle: nil), forCellReuseIdentifier: DisplayRecipesViewController.cellId)
+        tableView.rowHeight = DisplayRecipesViewController.cellRowHeight
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         favoriteRecipes = Favorite.all
         tableView.reloadData()
@@ -36,10 +41,9 @@ class FavoriteViewController: UIViewController {
                 self.presentAlert("Navigation error.")
                 return
             }
-            let backItem = UIBarButtonItem()
-            backItem.editBackReturnButonItem(viewController: self)
-            
             controller.sentChosenFavoriteRecipe = chosenFavoriteRecipe
+            
+            editBackReturnButonItem()
         }
     }
     
@@ -62,10 +66,11 @@ class FavoriteViewController: UIViewController {
 extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PresentRecipeCell", for: indexPath) as? PresentRecipeTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DisplayRecipesViewController.cellId, for: indexPath) as? PresentRecipeTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(recipe: favoriteRecipes[indexPath.row].label ?? "", ingredient: favoriteRecipes[indexPath.row].ingredientLines ?? [""], url: favoriteRecipes[indexPath.row].image ?? "", viewController: self)
+        cell.selectionStyle = .none
+        cell.configure(recipe: favoriteRecipes[indexPath.row].label ?? "", ingredient: favoriteRecipes[indexPath.row].ingredientLines ?? [""], url: favoriteRecipes[indexPath.row].image ?? "")
         return cell
     }
     

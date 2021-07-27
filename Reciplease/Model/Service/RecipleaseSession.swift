@@ -10,12 +10,12 @@ import Alamofire
 
 // MARK: - Protocol API Networking
 
-protocol Networking {
+protocol NetworkRequest {
         
     func request(with url: URL, completionHandler: @escaping (Data?, Error?, HTTPURLResponse?) -> Void)
 }
 
-final class RecipleaseSession: Networking {
+final class RecipleaseSession: NetworkRequest {
         
     func request(with url: URL, completionHandler: @escaping (Data?, Error?, HTTPURLResponse?) -> Void) {
         AF.request(url).responseData { (response: AFDataResponse<Data>) in

@@ -43,8 +43,12 @@ class FavoriteDetailRecipesViewController: UIViewController {
     
     // MARK: - View lifecycle
     
+    override func viewDidLoad() {
+        tableView.register(UINib.init(nibName: DetailRecipesViewController.nibName, bundle: nil), forCellReuseIdentifier: DetailRecipesViewController.cellId)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
-        recipeImageView.insertRecipeImage(urlLabel: image, viewController: self)
+        insertRecipeImage(urlLabel: image, imageView: recipeImageView)
         titleRecipeLabel.text = label
         checkIfRecipeAlreadyInFavorite()
     }
@@ -104,9 +108,10 @@ class FavoriteDetailRecipesViewController: UIViewController {
 extension FavoriteDetailRecipesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PresentDetailRecipeCell", for: indexPath) as? PresentDetailRecipeTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailRecipesViewController.cellId, for: indexPath) as? PresentDetailRecipeTableViewCell else {
             return UITableViewCell()
         }
+        cell.selectionStyle = .none
         cell.configure(ingredientLines: "- " + ingredientLines[indexPath.row])
         return cell
     }

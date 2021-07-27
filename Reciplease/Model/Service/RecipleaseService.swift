@@ -12,12 +12,12 @@ class RecipleaseService {
     
     // MARK: - Properties
     
-    private let session: Networking
+    private let session: NetworkRequest
     private var ingredient = ""
     
     // MARK: - Initialization
     
-    init(session: Networking = RecipleaseSession()) {
+    init(session: NetworkRequest = RecipleaseSession()) {
         self.session = session
     }
     

@@ -1,25 +1,25 @@
 //
-//  PresentRecipeViewCell.swift
+//  PresentRecipeTableViewCell.swift
 //  Reciplease
 //
-//  Created by Raphaël Huang-Dubois on 09/07/2021.
+//  Created by Raphaël Huang-Dubois on 27/07/2021.
 //
 
 import UIKit
 
 class PresentRecipeTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var titleRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UILabel!
     @IBOutlet weak var recipeImageView: UIImageView!
     
-    func configure(recipe: String, ingredient: [String], url: String, viewController: UIViewController) {
+    func configure(recipe: String, ingredient: [String], url: String) {
         titleRecipeLabel.text = recipe
         
         let textIngredients = ingredient.joined(separator: ", ")
         ingredientsLabel.text = textIngredients
         
-        recipeImageView.insertRecipeImage(urlLabel: url, viewController: viewController)
+        insertRecipeImage(urlLabel: url, imageView: recipeImageView)
         
         let maskLayer = CAGradientLayer(layer: recipeImageView.layer)
         maskLayer.implementShadowLayer(imageView: recipeImageView)

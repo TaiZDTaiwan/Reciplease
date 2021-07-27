@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Reusable
 
-class PresentIngredientsTableViewCell: UITableViewCell {
+final class PresentIngredientsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var ingredientLabel: UILabel!
     
-    func configure(ingredient: String) {
+    func configure(ingredient: String?) {
         ingredientLabel.text = ingredient
     }
 }

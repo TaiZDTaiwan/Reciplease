@@ -66,8 +66,7 @@ class AddIngredientsViewController: UIViewController, UITextFieldDelegate {
             }
             controller.displayRecipesArray = recipesArray
             
-            let backItem = UIBarButtonItem()
-            backItem.editBackReturnButonItem(viewController: self)
+            editBackReturnButonItem()
         }
     }
     
@@ -84,8 +83,21 @@ class AddIngredientsViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func tabClearButton(_ sender: UIButton) {
-        ingredientsArray.removeAll()
-        tableView.reloadData()
+        if ingredientsArray.count > 0 {
+            presentConfirmationToClearAlert()
+        }
+    }
+    
+    private func presentConfirmationToClearAlert() {
+        let confirmationAlert = UIAlertController(title: "Warning", message: "You are about to clear the whole ingredients list, are you sure you want to continue ?", preferredStyle: UIAlertController.Style.alert)
+
+        confirmationAlert.addAction(UIAlertAction(title: "Confirm", style: .destructive, handler: { (_: UIAlertAction!) in
+            self.ingredientsArray.removeAll()
+            self.tableView.reloadData()
+        }))
+        confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        present(confirmationAlert, animated: true, completion: nil)
     }
     
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
