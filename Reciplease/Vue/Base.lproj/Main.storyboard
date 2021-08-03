@@ -68,7 +68,7 @@
                                             <constraint firstAttribute="height" constant="35" id="GJN-ek-WUZ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="20"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="b1p-VZ-7Kc">
@@ -76,6 +76,7 @@
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Lemon, Cheese, Sausages..." minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="PLN-Fu-zuJ">
                                                 <rect key="frame" x="0.0" y="0.0" width="307" height="30"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="done"/>
                                                 <connections>
@@ -404,7 +405,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hJQ-eE-HeO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2863.0769230769229" y="-186.25592417061611"/>
+            <point key="canvasLocation" x="2814" y="-186"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="zij-1w-0o5">
@@ -460,6 +461,11 @@
                                     <outlet property="delegate" destination="dNh-Qe-WK0" id="gXa-Ji-qZW"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" id="Iiw-9d-tJu">
+                                <rect key="frame" x="0.0" y="400" width="390" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.94510442019999996" green="0.94508665800000002" blue="0.94509869810000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zlk-D7-Y23"/>
                         <color key="backgroundColor" red="0.21167728299999999" green="0.20006069539999999" blue="0.19607782360000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -475,6 +481,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Reciplease" id="QpX-Jd-f7w"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="Iiw-9d-tJu" id="Op0-Gz-K3c"/>
                         <outlet property="indicationLabel" destination="rIh-ol-orS" id="oOe-Aa-4Ge"/>
                         <outlet property="tableView" destination="JBN-hE-3Fb" id="doX-hX-Zzn"/>
                         <segue destination="Zx3-iH-JnY" kind="show" identifier="segueToFavoriteDetailRecipesVC" id="Bww-tP-9Ya"/>

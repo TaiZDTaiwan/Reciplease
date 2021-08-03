@@ -17,7 +17,7 @@ class FakeResponseData {
         return try? Data(contentsOf: url)
     }
     
-    static let IncorrectData = "erreur".data(using: .utf8)
+    static let incorrectData = "erreur".data(using: .utf8)
     
     // MARK: - Response
     

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class FavoriteViewController: UIViewController {
     
@@ -13,22 +14,28 @@ class FavoriteViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var indicationLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
     
-    var chosenFavoriteRecipe = Favorite()
+    var chosenFavoriteRecipe = FavoriteDataModel()
     
-    var favoriteRecipes = Favorite.all
+    let coreDataManager = CoreDataManager()
+    
+    var favoriteRecipes = [FavoriteDataModel]()
     
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
         tableView.register(UINib.init(nibName: DisplayRecipesViewController.nibName, bundle: nil), forCellReuseIdentifier: DisplayRecipesViewController.cellId)
         tableView.rowHeight = DisplayRecipesViewController.cellRowHeight
+        activityIndicator.startAnimating()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        favoriteRecipes = Favorite.all
+    override func viewDidAppear(_ animated: Bool) {
+        favoriteRecipes = coreDataManager.favoriteRecipe
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
         tableView.reloadData()
         displayOrHideTableView()
     }

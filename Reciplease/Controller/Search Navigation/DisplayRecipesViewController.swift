@@ -21,7 +21,7 @@ class DisplayRecipesViewController: UIViewController {
     // MARK: - Properties
     
     var displayRecipesArray = [Hits]()
-    var chosenRecipeFromTableView: Hits!
+    var chosenRecipe: Hits?
     
     // MARK: - View lifecycle
     
@@ -51,7 +51,7 @@ class DisplayRecipesViewController: UIViewController {
                 return
             }
             
-            guard let chosenRecipe = chosenRecipeFromTableView else {
+            guard let chosenRecipe = chosenRecipe else {
                 self.presentAlert("Impossible to access this recipe details.")
                 return
             }
@@ -84,7 +84,7 @@ extension DisplayRecipesViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        chosenRecipeFromTableView = displayRecipesArray[indexPath.row]
+        chosenRecipe = displayRecipesArray[indexPath.row]
         self.performSegue(withIdentifier: "segueToDetailRecipesVC", sender: nil)
     }
 }

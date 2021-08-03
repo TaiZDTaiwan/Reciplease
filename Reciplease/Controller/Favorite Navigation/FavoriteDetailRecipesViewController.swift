@@ -19,7 +19,9 @@ class FavoriteDetailRecipesViewController: UIViewController {
     
     // MARK: - Properties
     
-    var sentChosenFavoriteRecipe = Favorite()
+    let coreDataManager = CoreDataManager()
+    
+    var sentChosenFavoriteRecipe = FavoriteDataModel()
     
     var label: String {
         guard let label = sentChosenFavoriteRecipe.label else { return "" }
@@ -56,18 +58,11 @@ class FavoriteDetailRecipesViewController: UIViewController {
     // MARK: - Methods and Actions dragged from view
     
     private func checkIfRecipeAlreadyInFavorite() {
-        if isAlreadyInFavorite() {
+        if coreDataManager.checkIfRecipeAlreadyInFavorite(label: label) {
             favoriteButton.setImage(#imageLiteral(resourceName: "Selected Favorite Icon"), for: .normal)
         } else {
             favoriteButton.setImage(#imageLiteral(resourceName: "Favorite Icon"), for: .normal)
         }
-    }
-    
-    private func isAlreadyInFavorite() -> Bool {
-        for recipe in Favorite.all where recipe.label == label {
-            return true
-        }
-        return false
     }
     
     @IBAction func tapGetDirectionsButton(_ sender: UIButton) {
@@ -81,24 +76,10 @@ class FavoriteDetailRecipesViewController: UIViewController {
     @IBAction func tapFavoriteButton(_ sender: UIButton) {
         if sender.image(for: .normal) == #imageLiteral(resourceName: "Favorite Icon") {
             sender.setImage(#imageLiteral(resourceName: "Selected Favorite Icon"), for: .normal)
+            coreDataManager.addOneFavoriteRecipe(label: label, image: image, url: url, ingredientLines: ingredientLines)
         } else {
             sender.setImage(#imageLiteral(resourceName: "Favorite Icon"), for: .normal)
-        }
-        addOrRemoveOneFavoriteRecipe()
-    }
-    
-    private func addOrRemoveOneFavoriteRecipe() {
-        if isAlreadyInFavorite() {
-            for recipe in Favorite.all where recipe.label == label {
-                AppDelegate.viewContext.delete(recipe)
-            }
-        } else {
-            let favorite = Favorite(context: AppDelegate.viewContext)
-            favorite.label = label
-            favorite.image = image
-            favorite.url = url
-            favorite.ingredientLines = ingredientLines
-            try? AppDelegate.viewContext.save()
+            coreDataManager.removeOneFavoriteRecipe(label: label)
         }
     }
 }

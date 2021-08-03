@@ -15,7 +15,7 @@ class AlamofireSessionFake: NetworkRequest {
     
     var data: Data?
     var response: HTTPURLResponse?
-    var error: Swift.Error?
+    var error: Error?
     
     // MARK: - Initialization
     

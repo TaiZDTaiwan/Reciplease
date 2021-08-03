@@ -9,9 +9,6 @@ import UIKit
 
 class DetailRecipesViewController: UIViewController {
     
-    static let nibName = "PresentDetailRecipeTableViewCell"
-    static let cellId = "PresentDetailRecipeCell"
-    
     // MARK: - Outlets from view
     
     @IBOutlet weak var recipeImageView: UIImageView!
@@ -22,21 +19,30 @@ class DetailRecipesViewController: UIViewController {
     
     // MARK: - Properties
     
-    var chosenRecipeToDetail: Hits!
+    static let nibName = "PresentDetailRecipeTableViewCell"
+    static let cellId = "PresentDetailRecipeCell"
+    
+    let coreDataManager = CoreDataManager()
+    
+    var chosenRecipeToDetail: Hits?
     
     var label: String {
+        guard let chosenRecipeToDetail = chosenRecipeToDetail else { return "" }
         return chosenRecipeToDetail.recipe.label
     }
     
     var image: String {
+        guard let chosenRecipeToDetail = chosenRecipeToDetail else { return "" }
         return chosenRecipeToDetail.recipe.image
     }
     
     var url: String {
+        guard let chosenRecipeToDetail = chosenRecipeToDetail else { return "" }
         return chosenRecipeToDetail.recipe.url
     }
     
     var ingredientLines: [String] {
+        guard let chosenRecipeToDetail = chosenRecipeToDetail else { return [""] }
         return chosenRecipeToDetail.recipe.ingredientLines
     }
     
@@ -47,26 +53,21 @@ class DetailRecipesViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        insertRecipeImage(urlLabel: "\(chosenRecipeToDetail.recipe.image)", imageView: recipeImageView)
-        titleRecipeLabel.text = chosenRecipeToDetail.recipe.label
+        if let chosenRecipeToDetail = chosenRecipeToDetail {
+            insertRecipeImage(urlLabel: "\(chosenRecipeToDetail.recipe.image)", imageView: recipeImageView)
+            titleRecipeLabel.text = chosenRecipeToDetail.recipe.label
+        }
         checkIfRecipeAlreadyInFavorite()
     }
     
     // MARK: - Methods and Actions dragged from view
     
     private func checkIfRecipeAlreadyInFavorite() {
-        if isAlreadyInFavorite() {
+        if coreDataManager.checkIfRecipeAlreadyInFavorite(label: label) {
             favoriteButton.setImage(#imageLiteral(resourceName: "Selected Favorite Icon"), for: .normal)
         } else {
             favoriteButton.setImage(#imageLiteral(resourceName: "Favorite Icon"), for: .normal)
         }
-    }
-    
-    private func isAlreadyInFavorite() -> Bool {
-        for recipe in Favorite.all where recipe.label == label {
-            return true
-        }
-        return false
     }
     
     @IBAction func tapGetDirectionsButton(_ sender: UIButton) {
@@ -80,29 +81,10 @@ class DetailRecipesViewController: UIViewController {
     @IBAction func tapFavoriteButton(_ sender: UIButton) {
         if sender.image(for: .normal) == #imageLiteral(resourceName: "Favorite Icon") {
             sender.setImage(#imageLiteral(resourceName: "Selected Favorite Icon"), for: .normal)
+            coreDataManager.addOneFavoriteRecipe(label: label, image: image, url: url, ingredientLines: ingredientLines)
         } else {
             sender.setImage(#imageLiteral(resourceName: "Favorite Icon"), for: .normal)
-        }
-        addOrRemoveOneFavoriteRecipe()
-    }
-    
-    private func addOrRemoveOneFavoriteRecipe() {
-        if isAlreadyInFavorite() {
-            for recipe in Favorite.all where recipe.label == label {
-                AppDelegate.viewContext.delete(recipe)
-            }
-        } else {
-            let favorite = Favorite(context: AppDelegate.viewContext)
-            favorite.label = label
-            favorite.image = image
-            favorite.url = url
-            favorite.ingredientLines = ingredientLines
-            
-            do {
-                try AppDelegate.viewContext.save()
-            } catch {
-                self.presentAlert("Impossible to save that recipe in favorite.")
-            }
+            coreDataManager.removeOneFavoriteRecipe(label: label)
         }
     }
 }
