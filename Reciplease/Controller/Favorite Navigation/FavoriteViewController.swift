@@ -12,27 +12,32 @@ class FavoriteViewController: UIViewController {
     
     // MARK: - Outlets from view
     
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var indicationLabel: UILabel!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak private var tableView: UITableView!
+    @IBOutlet weak private var indicationLabel: UILabel!
+    @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
     
+    // CoreDataManager instance to use its methods.
+    private let coreDataManager = CoreDataManager()
+    
+    // To load and stock the favorite recipes from CoreData.
+    private var favoriteRecipes = [FavoriteDataModel]()
+    
+    // Recipe chosen in table view by user and will be sent in next controller.
     var chosenFavoriteRecipe = FavoriteDataModel()
-    
-    let coreDataManager = CoreDataManager()
-    
-    var favoriteRecipes = [FavoriteDataModel]()
     
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         tableView.register(UINib.init(nibName: DisplayRecipesViewController.nibName, bundle: nil), forCellReuseIdentifier: DisplayRecipesViewController.cellId)
         tableView.rowHeight = DisplayRecipesViewController.cellRowHeight
         activityIndicator.startAnimating()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         favoriteRecipes = coreDataManager.favoriteRecipe
         activityIndicator.stopAnimating()
         activityIndicator.isHidden = true

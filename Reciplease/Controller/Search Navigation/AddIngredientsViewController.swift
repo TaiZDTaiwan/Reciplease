@@ -11,30 +11,34 @@ class AddIngredientsViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Outlets from view
 
-    @IBOutlet var mainView: UIView!
-    @IBOutlet weak var fridgeLabel: UILabel!
-    @IBOutlet weak var addIngredientsTextField: UITextField!
-    @IBOutlet weak var addButton: UIButton!
-    @IBOutlet weak var clearButton: UIButton!
-    @IBOutlet weak var searchRecipeButton: UIButton!
-    @IBOutlet weak var addStackView: UIStackView!
-    @IBOutlet weak var clearStackView: UIStackView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var indicationLabel: UILabel!
-    @IBOutlet weak var handView: UIView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private var mainView: UIView!
+    @IBOutlet weak private var fridgeLabel: UILabel!
+    @IBOutlet weak private var addIngredientsTextField: UITextField!
+    @IBOutlet weak private var addIngredientButton: UIButton!
+    @IBOutlet weak private var clearButton: UIButton!
+    @IBOutlet weak private var searchRecipeButton: UIButton!
+    @IBOutlet weak private var addStackView: UIStackView!
+    @IBOutlet weak private var clearStackView: UIStackView!
+    @IBOutlet weak private var tableView: UITableView!
+    @IBOutlet weak private var indicationLabel: UILabel!
+    @IBOutlet weak private var handView: UIView!
+    @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
     
-    let recipeService = RecipleaseService()
+    // To have access to getRecipe method.
+    private let recipeService = RecipleaseService()
     
+    // To stock all the ingredients typed.
     private var ingredientsArray = [String]()
     
-    private var recipesArray = [Hits]()
-    
+    // String using as URI parameter when calling API.
     private var listIngredientsToDisplay: String {
         return ingredientsArray.joined(separator: " ")
     }
+    
+    // To received API's data and send it to the next controller.
+    private var recipesArray = [Hits]()
     
     // MARK: - View lifecycle
     
@@ -45,6 +49,7 @@ class AddIngredientsViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Methods and Actions dragged from view
     
+    // Prepare and start the little green hand animation.
     private func launchIndicationAnimation() {
         var translationTransform: CGAffineTransform
         translationTransform = CGAffineTransform(translationX: 0, y: 5)
@@ -58,6 +63,7 @@ class AddIngredientsViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
+    // Send received API recipes to next controller.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueToDisplayRecipesVC" {
             guard let controller = segue.destination as? DisplayRecipesViewController else {
@@ -70,7 +76,7 @@ class AddIngredientsViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @IBAction func tapAddButton(_ sender: UIButton) {
+    @IBAction func tapAddIngredientButton(_ sender: UIButton) {
         if addIngredientsTextField.hasText {
             guard let ingredient = addIngredientsTextField.text else {
                 presentAlert("Please type text before adding an ingredient.")
@@ -121,6 +127,7 @@ class AddIngredientsViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // To launch API, perform the segue and activate the activity indicator while API Networking is processing.
     @IBAction func tapSearchForRecipesButton(_ sender: UIButton) {
         if ingredientsArray.count > 0 {
             launchGetRecipeProcess()

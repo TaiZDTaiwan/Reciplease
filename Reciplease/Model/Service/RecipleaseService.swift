@@ -8,6 +8,8 @@
 import Foundation
 import Alamofire
 
+// To prepare and launch API's networking to get back recipes according to the ingredients added by user.
+
 class RecipleaseService {
     
     // MARK: - Properties

@@ -8,13 +8,19 @@
 import Foundation
 import CoreData
 
+// CoreData initialization for production with NSSQLiteStoreType as persistenStoreDescriptions.
+
 class CoreDataStack {
+    
+    // MARK: - Properties
     
     static let shared = CoreDataStack()
 
-    let persistentContainer: NSPersistentContainer
-    let backgroundContext: NSManagedObjectContext
+    private let persistentContainer: NSPersistentContainer
+    private let backgroundContext: NSManagedObjectContext
     let mainContext: NSManagedObjectContext
+    
+    // MARK: - Initialization
     
     private init() {
         persistentContainer = NSPersistentContainer(name: "Reciplease")

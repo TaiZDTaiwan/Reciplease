@@ -9,6 +9,8 @@ import Foundation
 import CoreData
 @testable import Reciplease
 
+// CoreData initialization for test with NSInMemoryStoreType as persistenStoreDescriptions.
+
 class CoreDataTestStack {
 
     let persistentContainer: NSPersistentContainer

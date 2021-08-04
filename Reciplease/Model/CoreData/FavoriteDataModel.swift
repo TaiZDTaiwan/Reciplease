@@ -7,4 +7,6 @@
 
 import CoreData
 
+// To create FavoriteDataModel from xcdatamodel file as a managedObject.
+
 class FavoriteDataModel: NSManagedObject {}

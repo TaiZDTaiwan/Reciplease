@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-// MARK: - Protocol API Networking
+// MARK: - Protocol API Networking using Alamofire library.
 
 protocol NetworkRequest {
         

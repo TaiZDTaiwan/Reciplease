@@ -7,6 +7,8 @@
 
 import UIKit
 
+// To design the navigation bar title.
+
 class NavigationController: UINavigationController {
 
     override func viewDidLoad() {

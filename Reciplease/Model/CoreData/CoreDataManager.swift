@@ -8,11 +8,13 @@
 import Foundation
 import CoreData
 
+// Class with all the logical methods related to CoreData with CoreDataStack's view context as main context.
+
 class CoreDataManager {
     
     // MARK: - Properties
     
-    var mainContext: NSManagedObjectContext
+    private var mainContext: NSManagedObjectContext
     
     var favoriteRecipe: [FavoriteDataModel] {
         let request: NSFetchRequest = FavoriteDataModel.fetchRequest()
@@ -31,9 +33,7 @@ class CoreDataManager {
     
     // MARK: - Methods
     
-    // method to add recipe in Favorites
     func addOneFavoriteRecipe(label: String, image: String, url: String, ingredientLines: [String]) {
-        
         let recipe = FavoriteDataModel(context: mainContext)
         recipe.label = label
         recipe.image = image
@@ -43,7 +43,6 @@ class CoreDataManager {
         saveContext()
     }
     
-    // method to remove recipe in Favorites
     func removeOneFavoriteRecipe(label: String) {
         let request: NSFetchRequest<FavoriteDataModel> = FavoriteDataModel.fetchRequest()
         request.predicate = NSPredicate(format: "label == %@", label)
@@ -52,20 +51,26 @@ class CoreDataManager {
             for object in result {
                 mainContext.delete(object)
             }
+        } else {
+            print("Impossible to remove a recipe.")
         }
     }
     
-    // method to check if recipe is already in Favorites
     func checkIfRecipeAlreadyInFavorite(label: String) -> Bool {
         let request: NSFetchRequest<FavoriteDataModel> = FavoriteDataModel.fetchRequest()
         request.predicate = NSPredicate(format: "label == %@", label)
         
-        guard let recipes = try? mainContext.fetch(request) else { return false }
-        if recipes.isEmpty { return false }
+        guard let recipes = try? mainContext.fetch(request) else {
+            print("Impossible to check recipes existence in favorite.")
+            return false
+        }
+        if recipes.isEmpty {
+            return false
+        }
         return true
     }
     
-    func saveContext() {
+    private func saveContext() {
         if mainContext.hasChanges {
             do {
                 try mainContext.save()

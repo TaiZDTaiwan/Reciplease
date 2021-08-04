@@ -11,34 +11,36 @@ class FavoriteDetailRecipesViewController: UIViewController {
 
     // MARK: - Outlets from view
     
-    @IBOutlet weak var recipeImageView: UIImageView!
-    @IBOutlet weak var titleRecipeLabel: UILabel!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var getDirectionsButton: UIButton!
-    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak private var recipeImageView: UIImageView!
+    @IBOutlet weak private var titleRecipeLabel: UILabel!
+    @IBOutlet weak private var tableView: UITableView!
+    @IBOutlet weak private var getDirectionsButton: UIButton!
+    @IBOutlet weak private var favoriteButton: UIButton!
     
     // MARK: - Properties
     
-    let coreDataManager = CoreDataManager()
+    // CoreDataManager instance to use its methods.
+    private let coreDataManager = CoreDataManager()
     
+    // Received recipe from previous controller.
     var sentChosenFavoriteRecipe = FavoriteDataModel()
     
-    var label: String {
+    private var label: String {
         guard let label = sentChosenFavoriteRecipe.label else { return "" }
             return label
     }
     
-    var image: String {
+    private var image: String {
         guard let image = sentChosenFavoriteRecipe.image else { return "" }
             return image
     }
     
-    var url: String {
+    private var url: String {
         guard let url = sentChosenFavoriteRecipe.url else { return "" }
             return url
     }
     
-    var ingredientLines: [String] {
+    private var ingredientLines: [String] {
         guard let ingredientLines = sentChosenFavoriteRecipe.ingredientLines else { return [""] }
             return ingredientLines
     }
@@ -46,10 +48,12 @@ class FavoriteDetailRecipesViewController: UIViewController {
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         tableView.register(UINib.init(nibName: DetailRecipesViewController.nibName, bundle: nil), forCellReuseIdentifier: DetailRecipesViewController.cellId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         insertRecipeImage(urlLabel: image, imageView: recipeImageView)
         titleRecipeLabel.text = label
         checkIfRecipeAlreadyInFavorite()

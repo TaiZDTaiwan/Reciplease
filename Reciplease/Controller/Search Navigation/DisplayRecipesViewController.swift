@@ -9,28 +9,34 @@ import UIKit
 
 class DisplayRecipesViewController: UIViewController {
     
+    // MARK: - Outlets from view
+    
+    @IBOutlet weak private var tableView: UITableView!
+    @IBOutlet weak private var indicationLabel: UILabel!
+    
+    // MARK: - Properties
+    
+    // Statics to prepare custom nib for table view.
     static let nibName = "PresentRecipeTableViewCell"
     static let cellId = "PresentRecipeCell"
     static let cellRowHeight: CGFloat = 180
     
-    // MARK: - Outlets from view
-    
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var indicationLabel: UILabel!
-    
-    // MARK: - Properties
-    
+    // Received recipes from previous controller.
     var displayRecipesArray = [Hits]()
+    
+    // Recipe chosen in table view by user and will be sent in next controller.
     var chosenRecipe: Hits?
     
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         tableView.register(UINib.init(nibName: DisplayRecipesViewController.nibName, bundle: nil), forCellReuseIdentifier: DisplayRecipesViewController.cellId)
         tableView.rowHeight = DisplayRecipesViewController.cellRowHeight
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         checkRecipesAvailability()
     }
     

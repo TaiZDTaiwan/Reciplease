@@ -93,7 +93,7 @@
                                                     <color key="titleColor" red="0.94510442019999996" green="0.94508665800000002" blue="0.94509869810000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="tapAddButton:" destination="hHb-fA-J1S" eventType="touchUpInside" id="n9f-kb-Vv3"/>
+                                                    <action selector="tapAddIngredientButton:" destination="hHb-fA-J1S" eventType="touchUpInside" id="3aJ-W1-Lpk"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -239,7 +239,7 @@
                     <navigationItem key="navigationItem" title="Reciplease" id="1MP-gc-SZJ"/>
                     <connections>
                         <outlet property="activityIndicator" destination="4bq-fW-ztd" id="ziE-ZH-lA9"/>
-                        <outlet property="addButton" destination="UE5-ws-ZQn" id="9rg-sp-RMf"/>
+                        <outlet property="addIngredientButton" destination="UE5-ws-ZQn" id="D5Y-dk-SsC"/>
                         <outlet property="addIngredientsTextField" destination="PLN-Fu-zuJ" id="ftT-0a-bxa"/>
                         <outlet property="addStackView" destination="nrg-GY-qdg" id="gJB-LA-da1"/>
                         <outlet property="clearButton" destination="t1s-mw-kYP" id="dJY-OF-4S9"/>

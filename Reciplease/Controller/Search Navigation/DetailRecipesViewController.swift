@@ -11,37 +11,40 @@ class DetailRecipesViewController: UIViewController {
     
     // MARK: - Outlets from view
     
-    @IBOutlet weak var recipeImageView: UIImageView!
-    @IBOutlet weak var titleRecipeLabel: UILabel!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var getDirectionsButton: UIButton!
-    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak private var recipeImageView: UIImageView!
+    @IBOutlet weak private var titleRecipeLabel: UILabel!
+    @IBOutlet weak private var tableView: UITableView!
+    @IBOutlet weak private var getDirectionsButton: UIButton!
+    @IBOutlet weak private var favoriteButton: UIButton!
     
     // MARK: - Properties
     
+    // Statics to prepare custom nib for table view.
     static let nibName = "PresentDetailRecipeTableViewCell"
     static let cellId = "PresentDetailRecipeCell"
     
-    let coreDataManager = CoreDataManager()
+    // CoreDataManager instance to use its methods.
+    private let coreDataManager = CoreDataManager()
     
+    // Received recipe from previous controller.
     var chosenRecipeToDetail: Hits?
     
-    var label: String {
+    private var label: String {
         guard let chosenRecipeToDetail = chosenRecipeToDetail else { return "" }
         return chosenRecipeToDetail.recipe.label
     }
     
-    var image: String {
+    private var image: String {
         guard let chosenRecipeToDetail = chosenRecipeToDetail else { return "" }
         return chosenRecipeToDetail.recipe.image
     }
     
-    var url: String {
+    private var url: String {
         guard let chosenRecipeToDetail = chosenRecipeToDetail else { return "" }
         return chosenRecipeToDetail.recipe.url
     }
     
-    var ingredientLines: [String] {
+    private var ingredientLines: [String] {
         guard let chosenRecipeToDetail = chosenRecipeToDetail else { return [""] }
         return chosenRecipeToDetail.recipe.ingredientLines
     }
@@ -49,10 +52,12 @@ class DetailRecipesViewController: UIViewController {
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         tableView.register(UINib.init(nibName: DetailRecipesViewController.nibName, bundle: nil), forCellReuseIdentifier: DetailRecipesViewController.cellId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let chosenRecipeToDetail = chosenRecipeToDetail {
             insertRecipeImage(urlLabel: "\(chosenRecipeToDetail.recipe.image)", imageView: recipeImageView)
             titleRecipeLabel.text = chosenRecipeToDetail.recipe.label
@@ -62,6 +67,7 @@ class DetailRecipesViewController: UIViewController {
     
     // MARK: - Methods and Actions dragged from view
     
+    // To assign the right star icon color.
     private func checkIfRecipeAlreadyInFavorite() {
         if coreDataManager.checkIfRecipeAlreadyInFavorite(label: label) {
             favoriteButton.setImage(#imageLiteral(resourceName: "Selected Favorite Icon"), for: .normal)

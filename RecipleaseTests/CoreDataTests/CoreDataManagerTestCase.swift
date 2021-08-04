@@ -36,4 +36,8 @@ class CoreDataManagerTestCase: XCTestCase {
         coreDataManager.addOneFavoriteRecipe(label: "Chicken Vesuvio", image: "", url: "", ingredientLines: [""])
         XCTAssertTrue(coreDataManager.checkIfRecipeAlreadyInFavorite(label: "Chicken Vesuvio"))
     }
+    
+    func testGivenNoRecipeAddedInFavorite_WhenUsingFunctionCheckIfRecipeAlreadyInFavorite_ThenShouldReturnFalse() {
+        XCTAssertFalse(coreDataManager.checkIfRecipeAlreadyInFavorite(label: "Chicken Vesuvio"))
+    }
 }
